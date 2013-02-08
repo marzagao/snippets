@@ -2,22 +2,32 @@
 
 {% block body %}
 
-  <div style="float: left; width: 300px">
-    <h2>{{ tag }}</h2>
+<div class="row">
+  <div class="span12">
+
+    <h1>{{ tag }}
+      <small>
 
     {% if following %}
       ✓ <a class="light" href="/unfollow?tag={{ tag }}&continue=/tag/{{ tag }}">unfollow</a>
     {% else %}
       <a class="light" href="/follow?tag={{ tag }}&continue=/tag/{{ tag }}">follow</a>
     {% endif %}
+    <small>
+    </h1>
 
   </div>
-  <div style="float: left; margin-left: 30px; max-width: 600px">
+</div>
+
+<div class="row">
+  <div class="span12">
+
     {% for snippet in snippets %}
       <b>{{ snippet.user.pretty_name }}</b><br/>
       <pre>{{ snippet.text|urlize }}</pre>
       <br/></br>
     {% endfor %}
    </div>
+ </div>
 
 {% endblock %}

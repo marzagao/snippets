@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}LTC Snippets{% endblock %}</title>
+  <title>{% block title %}{% endblock %} &middot; {{site_name}}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Le styles -->
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -30,10 +30,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">LTC Snippets</a>
+          <a class="brand" href="/">{{site_name}}</a>
           <div class="nav-collapse collapse">
               <p class="navbar-text pull-right">
-              send your snippets to <a href="mailto:snippets@ltc-snippets.appspotmail.com">snippets@ltc-snippets.appspotmail.com</a>
+              send your snippets to <a target="_blank" href="mailto:{{site_email}}">{{site_email}}</a>
             </p>
             <ul class="nav">
               <li><a href="/user/{{ current_user.email }}">Logged in as {{ current_user.pretty_name }}</a></li>

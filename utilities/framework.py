@@ -32,6 +32,11 @@ class BaseHandler(webapp2.RequestHandler):
         next_url = '/'
         self.initialize(request, response)
 
+        self.misc_tags = {
+            'current_version':os.environ["CURRENT_VERSION_ID"],
+            'site_name':settings.SITE_NAME,
+            'site_email':settings.SITE_EMAIL,
+        }
 
 
         self.user = {
@@ -96,6 +101,8 @@ class BaseHandler(webapp2.RequestHandler):
 
     def render(self, template_name, template_values):
         filename = '%s.html' % template_name
+        template_values = dict(template_values, **self.user)
+        template_values = dict(template_values, **self.misc_tags)
         self.response.out.write(render_to_string(filename, template_values))
 
     def write(self, message):
