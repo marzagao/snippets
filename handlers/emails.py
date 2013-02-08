@@ -33,7 +33,7 @@ class OneReminderEmail(framework.BaseHandler):
                        body=REMINDER)
 
     def get(self):
-        post(self)
+        self.post()
 
 
 class DigestEmail(framework.BaseHandler):
