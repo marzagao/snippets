@@ -77,8 +77,6 @@ class BaseHandler(webapp2.RequestHandler):
 
         mail.send_mail_to_admins(sender=settings.ADMIN_EMAIL, subject=subject, body=body)
         template_values = {}
-        template_values = dict(template_values, **self.user)
-        template_values = dict(template_values, **self.misc_tags)
         if users.is_current_user_admin() or os.environ['SERVER_SOFTWARE'] == 'Development/1.0':
             template_values['traceback'] = body
         self.response.out.write(render_to_string('error.html', template_values))
