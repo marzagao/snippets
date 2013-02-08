@@ -1,0 +1,12 @@
+import os
+
+DEBUG = True
+
+SITE_DOMAIN = "example.com"
+SITE_NAME = "Snippets"
+SITE_EMAIL = "snippets@" + SITE_DOMAIN
+ADMIN_EMAIL = "admin@example.com"
+
+SESSION_SECRET_KEY = ''
+
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), "templates"))
