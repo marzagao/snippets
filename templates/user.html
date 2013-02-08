@@ -1,17 +1,20 @@
 {% extends "base.html" %}
 
 {% block body %}
+<div class="row">
+  <div class="span12">
 
-  <div style="float: left; width: 300px">
-    <h2>{{ user.email }}</h2>
-
-    {% if following %}
+    <h1>{{ user.email }} <small>{% if following %}
       ✓ <a class="light" href="/unfollow?user={{ user.email }}&continue=/user/{{ user.email }}">unfollow</a>
     {% else %}
       <a class="light" href="/follow?user={{ user.email }}&continue=/user/{{ user.email }}">follow</a>
-    {% endif %}
+    {% endif %}</small></h1>
 
-    <br/></br>
+
+</div>
+</div>
+<div class="row">
+<div class="span2 pull-right well">
     <b>Tags</b><br/>
     {% for tag in tags %}
         {{ tag.0 }}
@@ -24,7 +27,8 @@
     {% endfor %}
 
   </div>
-  <div style="float: left; margin-left: 30px; max-width: 600px">
+
+  <div class="span10">
     {% for snippet in snippets %}
       <b>{{ snippet.date }}</b><br/>
       <pre>{{ snippet.text|urlize }}</pre>
@@ -32,4 +36,7 @@
     {% endfor %}
    </div>
 
+</div>
 {% endblock %}
+
+{% block title %}Snippets for {{ user.email }}{% endblock %}
