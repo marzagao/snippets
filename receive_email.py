@@ -1,14 +1,15 @@
-import datetime
 import email
-import logging
 import re
 
-from google.appengine.ext import webapp
 from google.appengine.ext.webapp.mail_handlers import InboundMailHandler
-from google.appengine.ext.webapp import util
+
+from django.conf import settings
 
 from dateutil import date_for_new_snippet
 from model import user_from_email, create_or_replace_snippet
+
+import webapp2
+
 
 class ReceiveEmail(InboundMailHandler):
     """Receive a snippet email and create or replace snippet for this week."""
@@ -31,12 +32,10 @@ class ReceiveEmail(InboundMailHandler):
 
             create_or_replace_snippet(user, content, date_for_new_snippet())
 
+config = {}
+config['webapp2_extras.sessions'] = {
+    'secret_key': settings.SESSION_SECRET_KEY,
+}
 
-def main():
-    application = webapp.WSGIApplication([ReceiveEmail.mapping()], debug=True)
-    util.run_wsgi_app(application)
-
-if __name__ == '__main__':
-    main()
-
+application = webapp2.WSGIApplication([ReceiveEmail.mapping()], config=config, debug=settings.DEBUG)
 
