@@ -13,7 +13,12 @@ class User(db.Model):
     
     def pretty_name(self):
         return self.email.split('@')[0]
-    
+
+class UserProfile(db.Model):
+    user = db.ReferenceProperty(User)
+    append_snippets = db.BooleanProperty(default=False)
+
+
 class Snippet(db.Model):
     user = db.ReferenceProperty(User)
     text = db.TextProperty()
@@ -33,12 +38,21 @@ def compute_following(current_user, users):
 def user_from_email(email):
     return User.all().filter("email =", email).fetch(1)[0]
     
+
 def create_or_replace_snippet(user, text, date):
-    # Delete existing (yeah, yeah, should be a transaction)
-    for existing in Snippet.all().filter("date =", date).filter("user =", user).fetch(10):
-        existing.delete()
-    
-    # Write new
+    """this name no longer makes sense..."""
+    current_profile = UserProfile.all().filter("user=", user).fetch(1)[0]
     snippet = Snippet(text=text, user=user, date=date)
+
+    if current_profile.append_snippets:
+        for current in Snippet.all().filter("date =", date).filter("user =", user).fetch(10):
+            snippet = current
+            snippet.text = snippet.text + "\r\n" + text
+            continue
+    else
+        # Delete existing (yeah, yeah, should be a transaction)
+        for existing in Snippet.all().filter("date =", date).filter("user =", user).fetch(10):
+            existing.delete()
+    
     snippet.put()
        
