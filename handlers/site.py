@@ -122,6 +122,19 @@ class MainHandler(framework.BaseHandler):
             user.enabled = False
             user.put()
 
+        #update profile if requested
+        profile = UserProfile.all().filter("user=", user).fetch(1)[0]
+        if not profile:
+            profile = new UserProfile(user = user)
+        set_append = self.request.get('setappend')
+        if set_append == '1':
+            profile.append_snippets = True
+            profile.put()
+        elif set_append == '0':
+            profile.append_snippets = False
+            profile.put()
+
+
         # Update tags if sent
         tags = self.request.get('tags')
         if tags:
@@ -139,6 +152,7 @@ class MainHandler(framework.BaseHandler):
 
         template_values = {
                            'current_user': user,
+                           'current_profile': profile,
                            'all_users': all_users,
                            'all_tags': all_tags
                            }
