@@ -41,7 +41,7 @@ def user_from_email(email):
 
 def create_or_replace_snippet(user, text, date):
     """this name no longer makes sense..."""
-    current_profile = UserProfile.all().filter("user=", user).fetch(1)[0]
+    current_profile = UserProfile.all().filter("user =", user).fetch(1)[0]
     snippet = Snippet(text=text, user=user, date=date)
 
     if current_profile.append_snippets:
@@ -49,7 +49,7 @@ def create_or_replace_snippet(user, text, date):
             snippet = current
             snippet.text = snippet.text + "\r\n" + text
             continue
-    else
+    else:
         # Delete existing (yeah, yeah, should be a transaction)
         for existing in Snippet.all().filter("date =", date).filter("user =", user).fetch(10):
             existing.delete()

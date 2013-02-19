@@ -12,6 +12,10 @@
     {% else %}
       disabled (<a class="light" href="?setenabled=1">enable</a>)
     {% endif %}
+
+    <p>Additional emails are set to {% if current_profile.append_snippets %}append to {% else %}replace {% endif %}the active one. ({% if current_profile.append_snippets %}<a class="light" href="?setappend=0">switch to replace</a>{% else %}<a class="light" href="?setappend=1">switch to append</a>{% endif %})</p>
+
+
     <form action="/" method="get">
 
     my tags <input name="tags" type="text" value="{{ current_user.tags|join:"," }}"/></form>

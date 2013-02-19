@@ -123,9 +123,10 @@ class MainHandler(framework.BaseHandler):
             user.put()
 
         #update profile if requested
-        profile = UserProfile.all().filter("user=", user).fetch(1)[0]
-        if not profile:
-            profile = new UserProfile(user = user)
+        try:
+            profile = UserProfile.all().filter("user =", user).fetch(1)[0]
+        except IndexError:
+            profile = UserProfile(user = user)
         set_append = self.request.get('setappend')
         if set_append == '1':
             profile.append_snippets = True
