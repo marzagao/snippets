@@ -24,4 +24,4 @@ Little attention has been paid to making this particularly scalable, but it shou
 ####TODO
 
 * migrate away from app engine mail (maybe?)
-* Make account pages better
+* make email template based.

@@ -4,23 +4,32 @@
 {% block body %}
     <div class="row">
         <div class="span12">
-    <h2><a href="/user/{{ current_user.email }}">{{ current_user.pretty_name }}</a></h2>
+           <h1>Welcome back, <a href="/user/{{ current_user.email }}">{{ current_user.pretty_name }}</a></h1>
 
-    currently
-    {% if current_user.enabled %}
-      enabled (<a class="light" href="?setenabled=0">disable</a>)
-    {% else %}
-      disabled (<a class="light" href="?setenabled=1">enable</a>)
-    {% endif %}
-    <form action="/" method="get">
 
-    my tags <input name="tags" type="text" value="{{ current_user.tags|join:"," }}"/></form>
 
-    </td></tr></table>
-    <br/>
+            Send your snippets to <a target="_blank" href="mailto:{{site_email}}">{{site_email}}</a> by monday afternoon!
+            <br/><br/>
+        </div>
+    </div>
 
-    send your snippets to <a target="_blank" href="mailto:{{site_email}}">{{site_email}}</a> by monday afternoon!
-    <br/><br/>
+{% if followed_snippets %}
+    <div class="row">
+  <div class="span12">
+    <h2>Snippets for this week <small>({{retrieval_date}})</small></h2>
+    {% for snippet in followed_snippets %}
+      <b><a href="/user/{{ snippet.user.email }}">{{ snippet.user.pretty_name }}</a></b><br/>
+      <pre>{{ snippet.text|urlize }}</pre>
+      <br/>
+    {% endfor %}
+   </div>
+ </div>
+ {% else %}
+ <h2>No followed snippets for this week <small>({{retrieval_date}})</small></h2>
+ <p>Follow some people or tags or wait until next week.</p>
+ {% endif %}
+<hr />
+    <div class="row">
     <div class="span4">
 
     <table class="table table-condensed table-striped table-hover table-bordered">
@@ -73,7 +82,6 @@
 </table>
 </div>
 
-</div>
 </div>
 
 

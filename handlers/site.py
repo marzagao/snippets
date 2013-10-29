@@ -32,6 +32,23 @@ class UserHandler(framework.BaseHandler):
     @authorized.role('user')
     def get(self, email):
         user = self.get_user()
+
+        # Update enabled state if requested
+        set_enabled = self.request.get('setenabled')
+        if set_enabled == '1':
+            user.enabled = True
+            user.put()
+        elif set_enabled == '0':
+            user.enabled = False
+            user.put()
+
+        # Update tags if sent
+        tags = self.request.get('tags')
+        if tags:
+            user.tags = [s.strip() for s in tags.split(',')]
+            user.put()
+
+
         email = urllib.unquote_plus(email)
         desired_user = user_from_email(email)
         snippets = desired_user.snippet_set
@@ -39,9 +56,15 @@ class UserHandler(framework.BaseHandler):
         following = email in user.following
         tags = [(t, t in user.tags_following) for t in desired_user.tags]
 
+        if user.email == desired_user.email:
+            owner = True
+        else:
+            owner = False
+
         template_values = {
                            'current_user': user,
                            'user': desired_user,
+                           'owner': owner,
                            'snippets': snippets,
                            'following': following,
                            'tags': tags
@@ -73,6 +96,8 @@ class UnfollowHandler(framework.BaseHandler):
     @authorized.role('user')
     def get(self):
         user = self.get_user()
+
+
         desired_tag = self.request.get('tag')
         desired_user = self.request.get('user')
         continue_url = self.request.get('continue')
@@ -113,20 +138,7 @@ class MainHandler(framework.BaseHandler):
     @authorized.role('user')
     def get(self):
         user = self.get_user()
-        # Update enabled state if requested
-        set_enabled = self.request.get('setenabled')
-        if set_enabled == '1':
-            user.enabled = True
-            user.put()
-        elif set_enabled == '0':
-            user.enabled = False
-            user.put()
 
-        # Update tags if sent
-        tags = self.request.get('tags')
-        if tags:
-            user.tags = [s.strip() for s in tags.split(',')]
-            user.put()
 
         # Fetch user list and display
         raw_users = User.all().order('email').fetch(500)
@@ -137,7 +149,14 @@ class MainHandler(framework.BaseHandler):
             all_tags.update(u.tags)
         all_tags = [(t, t in user.tags_following) for t in all_tags]
 
+        d = date_for_retrieval()
+        all_snippets = Snippet.all().filter("date =", d).fetch(500)
+        logging.info(all_snippets)
+        followed_snippets = [s for s in all_snippets if s.user.email in following]
+
         template_values = {
+                           'followed_snippets':followed_snippets,
+                           'retrieval_date':d,
                            'current_user': user,
                            'all_users': all_users,
                            'all_tags': all_tags

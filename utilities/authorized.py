@@ -62,7 +62,7 @@ def role(role):
                     self.error(403)
                 else:
                     logging.debug("User not logged in -- force login")
-                    return self.redirect(users.create_login_url(self.request.uri))
+                    return self.redirect(users.create_login_url())
             elif role == "user" or (role == "admin" and
                                     users.is_current_user_admin()):
                 logging.debug("Role is %s so will allow handler", role)

@@ -37,8 +37,6 @@
             </p>
             <ul class="nav">
               <li><a href="/user/{{ current_user.email }}">Logged in as {{ current_user.pretty_name }}</a></li>
-              <li>{% if current_user.enabled %}<a class="light" href="?setenabled=0">click to disable</a>{% else %}<a class="light" href="?setenabled=1">click to enable</a>{% endif %}</li>
-
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -54,6 +52,13 @@
         </div>
           {% block body %}{% endblock %}
   </div>
+
+      <div id="footer">
+      <div class="container">
+        <hr>
+        <p class="muted credit">Send your snippets to <a target="_blank" href="mailto:{{site_email}}">{{site_email}}</a> by monday afternoon! <a href="https://github.com/lunarcorp/snippets">fix bugs</a>.</p>
+      </div>
+    </div>
 </body>
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
 </html>

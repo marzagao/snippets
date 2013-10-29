@@ -4,31 +4,49 @@
 <div class="row">
   <div class="span12">
 
-    <h1>{{ user.email }} <small>{% if following %}
+    <h2>Snippets for {{ user.email }} <small>{% if following %}
       ✓ <a class="light" href="/unfollow?user={{ user.email }}&continue=/user/{{ user.email }}">unfollow</a>
     {% else %}
       <a class="light" href="/follow?user={{ user.email }}&continue=/user/{{ user.email }}">follow</a>
-    {% endif %}</small></h1>
+    {% endif %}</small></h2>
 
 
 </div>
 </div>
+
+{%if owner %}
 <div class="row">
-<div class="span2 pull-right well">
+  <div class="span12">
+    <b>This is you!</b> Currently
+    {% if current_user.enabled %}
+      enabled (<a class="light" href="?setenabled=0">disable</a>)
+    {% else %}
+      disabled (<a class="light" href="?setenabled=1">enable</a>)
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+<div class="row">
+<div class="span3 pull-right well">
     <b>Tags</b><br/>
-    {% for tag in tags %}
-        {{ tag.0 }}
-		    {% if tag.1 %}
-		      ✓ <a class="light" href="/unfollow?tag={{ tag.0 }}&continue=/user/{{ user.email }}">unfollow</a>
-		    {% else %}
-		      <a class="light" href="/follow?tag={{ tag.0 }}&continue=/user/{{ user.email }}">follow</a>
-		    {% endif %}
-        <br/>
-    {% endfor %}
+    {%if not owner %}
+      {% for tag in tags %}
+          {{ tag.0 }}
+  		    {% if tag.1 %}
+  		      ✓ <a class="light" href="/unfollow?tag={{ tag.0 }}&continue=/user/{{ user.email }}">unfollow</a>
+  		    {% else %}
+  		      <a class="light" href="/follow?tag={{ tag.0 }}&continue=/user/{{ user.email }}">follow</a>
+  		    {% endif %}
+          <br/>
+      {% endfor %}
+    {% else %}
+      <form method="get"><input name="tags" class="span2" type="text" placeholder="tag1, tag2"  value="{{ current_user.tags|join:"," }}"/></form>
+    {% endif %}
 
   </div>
 
-  <div class="span10">
+  <div class="span8">
     {% for snippet in snippets %}
       <b>{{ snippet.date }}</b><br/>
       <pre>{{ snippet.text|urlize }}</pre>
