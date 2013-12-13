@@ -13,7 +13,7 @@ Little attention has been paid to making this particularly scalable, but it shou
 
 ---
 
-###Change's by Harper Reed
+###Changes by Harper Reed
 
 * Moved to python2.7
 * added bootstrap
