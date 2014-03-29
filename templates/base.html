@@ -32,16 +32,16 @@
           <a class="navbar-brand" href="/">{{site_name}}</a>
         </div>
         <div class="navbar-collapse collapse">
-          <p class="navbar-text ">
+
+
+          <ul class="nav navbar-nav">
+    <li><a href="/user/{{ current_user.email }}">Logged in as {{ current_user.pretty_name }}</a></li>
+
+          </ul>
+          <p class="navbar-text pull-right">
               send your snippets to <a target="_blank" href="mailto:{{site_email}}">{{site_email}}</a>
             </p>
-          <ul class="nav navbar-nav">
 
-
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-              <li><a href="/user/{{ current_user.email }}">Logged in as {{ current_user.pretty_name }}</a></li>
-          </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -56,5 +56,7 @@
       </div>
     </div>
 </body>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 </html>
