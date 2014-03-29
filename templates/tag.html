@@ -3,7 +3,7 @@
 {% block body %}
 
 <div class="row">
-  <div class="span12">
+  <div class="col-md-12">
 
     <h1>Snippets tagged '{{ tag }}'
       <small>
@@ -20,7 +20,7 @@
 </div>
 
 <div class="row">
-  <div class="span12">
+  <div class="col-md-12">
 
     {% for snippet in snippets %}
        <b><a href="/user/{{ snippet.user.email }}">{{ snippet.user.pretty_name }}</a></b><br/>

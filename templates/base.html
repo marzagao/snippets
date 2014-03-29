@@ -4,52 +4,48 @@
   <title>{% block title %}{% endblock %} &middot; {{site_name}}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Le styles -->
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-      <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-    </style>
+
   </head>
 </head>
 
 <body>
-   <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+
+
+        <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">{{site_name}}</a>
-          <div class="nav-collapse collapse">
-              <p class="navbar-text pull-right">
+          </button>
+          <a class="navbar-brand hidden-xs" href="/">
+          <img src="https://avatars1.githubusercontent.com/u/2603005?s=20" align=absmiddle alt="brand logo"></a>
+
+          <a class="navbar-brand" href="/">{{site_name}}</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <p class="navbar-text ">
               send your snippets to <a target="_blank" href="mailto:{{site_email}}">{{site_email}}</a>
             </p>
-            <ul class="nav">
+          <ul class="nav navbar-nav">
+
+
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
               <li><a href="/user/{{ current_user.email }}">Logged in as {{ current_user.pretty_name }}</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
     </div>
   <div class="container">
-
-        <div class="row">
-            <div class="span12">
-
-
-          </div>
-        </div>
           {% block body %}{% endblock %}
   </div>
 
@@ -60,5 +56,5 @@
       </div>
     </div>
 </body>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </html>
