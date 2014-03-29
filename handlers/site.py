@@ -18,10 +18,10 @@
 
 from model import *
 from dateutil import *
-
+import hashlib
 from utilities import framework
 from utilities import authorized
-
+import logging
 import urllib
 
 
@@ -50,6 +50,7 @@ class UserHandler(framework.BaseHandler):
 
 
         email = urllib.unquote_plus(email)
+        email_md5 = hashlib.md5(email).hexdigest()
         desired_user = user_from_email(email)
         snippets = desired_user.snippet_set
         snippets = sorted(snippets, key=lambda s: s.date, reverse=True)
@@ -64,6 +65,7 @@ class UserHandler(framework.BaseHandler):
         template_values = {
                            'current_user': user,
                            'user': desired_user,
+                           'email_md5': email_md5,
                            'owner': owner,
                            'snippets': snippets,
                            'following': following,
@@ -152,7 +154,16 @@ class MainHandler(framework.BaseHandler):
         d = date_for_retrieval()
         all_snippets = Snippet.all().filter("date =", d).fetch(500)
         logging.info(all_snippets)
-        followed_snippets = [s for s in all_snippets if s.user.email in following]
+        followed_snippets_raw = [s for s in all_snippets if s.user.email in following]
+        followed_snippets = []
+        for snippet in followed_snippets_raw:
+            followed_snippet ={
+                'email_md5':hashlib.md5(snippet.user.email).hexdigest(),
+                'text':snippet.text,
+                'user':snippet.user
+            }
+            followed_snippets.append(followed_snippet)
+            #followed_snippets[i]['email_md5'] = hashlib.md5(followed_snippets[i].user.email).hexdigest()
 
         template_values = {
                            'followed_snippets':followed_snippets,
