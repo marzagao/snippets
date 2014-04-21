@@ -31,7 +31,7 @@ def compute_following(current_user, users):
     return following            
     
 def user_from_email(email):
-    return User.all().filter("email =", email).fetch(1)[0]
+    return User.all().filter("email =", email.lower()).fetch(1)[0]
     
 def create_or_replace_snippet(user, text, date):
     # Delete existing (yeah, yeah, should be a transaction)

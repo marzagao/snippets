@@ -11,11 +11,17 @@ from django.conf import settings
 from utilities import framework
 
 REMINDER = """
-Hey nerd,
+Hullo fellow colleague,
 
-The kids want to know what you're up to. Don't leave 'em hanging.
+Please reply by Monday afternoon with an answer to the following two questions:
+
+1. What were the most important tasks you or your team worked on last week? Any results you'd like to share?
+2. What do you or your team intend on working this week?
+
+Aim for short sentences and scannable text. Bullet points are preferable over prose.
+
+On Monday night (11pm), you should receive the snippets digest e-mail.
 """
-
 
 class ReminderEmail(framework.BaseHandler):
     def get(self):
@@ -47,7 +53,7 @@ class OneDigestEmail(framework.BaseHandler):
     def __send_mail(self, recipient, body):
         mail.send_mail(sender="snippets <" + settings.SITE_EMAIL + ">",
                        to=recipient,
-                       subject="Snippet delivery!",
+                       subject="Snippet digest delivery!",
                        body=body)
 
     def __snippet_to_text(self, snippet):

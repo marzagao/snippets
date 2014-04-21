@@ -36,6 +36,7 @@ class BaseHandler(webapp2.RequestHandler):
             'current_version':os.environ["CURRENT_VERSION_ID"],
             'site_name':settings.SITE_NAME,
             'site_email':settings.SITE_EMAIL,
+            'site_logo':settings.SITE_LOGO,
         }
 
 
@@ -91,9 +92,9 @@ class BaseHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         assert user
 
-        userObj = User.all().filter("email =", user.email()).fetch(1)
+        userObj = User.all().filter("email =", user.email().lower()).fetch(1)
         if not userObj:
-            userObj = User(email=user.email())
+            userObj = User(email=user.email().lower())
             userObj.put()
         else:
             userObj = userObj[0]
